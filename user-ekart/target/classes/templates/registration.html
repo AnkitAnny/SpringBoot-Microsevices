@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="layouts/components :: headerfiles">this is my head</div>
+<body>
+
+<div th:insert="layouts/components :: header">this is my header</div>
+
+<div style="width:500px; margin:80px auto">
+    <h1>Buyer(User) Registration</h1>
+
+    <form th:action="@{/user/saveUser}" th:object="${user}" method="post">
+        Name : <input th:field="*{name}" id="txtName" class="form-control"/>
+        <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+        <br>
+
+        Email : <input type="email" th:field="*{email}" class="form-control" id="txtEmail" onchange="emailOnChange()"/>
+        <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+        <br>
+
+        Password : <input type="password" th:field="*{passwd}" class="form-control" id="txtPassword"/>
+        <span th:if="${#fields.hasErrors('passwd')}" th:errors="*{passwd}"></span>
+        <br>
+
+        Confirm Password : <input type="password" th:field="*{confirmPassword}" class="form-control"
+                                  id="txtConfirmPassword" onchange="confirmPass(this)"/>
+        <span th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></span>
+        <br>
+
+        <!--<select class="form-control" id="accountType">
+            <option th:each="t : ${accountTypes}" th:value="${t.typeId}" th:text="${t.typeName}"></option>
+
+        </select>-->
+        <br>
+        <input type="button" value="Register" onclick="validate()" class="form-control"/>
+        <input type="submit" value="Click" id="btnClick" style="display:none"/>
+
+
+    </form>
+
+</div>
+
+<div th:replace="layouts/components :: foot">this is my footer</div>
+<div th:include="layouts/components :: script"></div>
+
+<script>
+
+		function validate(){
+			var email = document.getElementById('txtEmail');
+			var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+	debugger;
+				if($('#txtName').val().length == 0 || $('#txtEmail').val().length == 0 || $('#txtPassword').val().length == 0){
+				  alert("All the fields are mandatory");
+				  return false;
+				}
+
+				else if($('#txtName').val().match('[^a-zA-Z][" "]') != null){
+				  alert("Name contains invalid character");
+				  return false;
+				}
+
+				else if (!filter.test(email.value)) {
+					alert('Please provide a valid email address');
+					email.focus;
+					return false;
+				}
+
+				else if($('#txtPassword').val().match('[a-z]') == null || $('#txtPassword').val().match('[A-Z]') == null ||
+				$('#txtPassword').val().match('[0-9]') == null || $('#txtPassword').val().match('[^a-zA-Z0-9]')==null){
+				  alert("Password should contain at least an uppercase and a lowercase character, a number and a special character")
+				  return false;
+				}
+				else{alert('server')
+					$('#btnClick').trigger('click');
+				}
+		}
+
+		function emailOnChange(){
+			var email = document.getElementById('txtEmail');
+			var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+			if (!filter.test(email.value)) {
+					alert('Please provide a valid email address');
+					email.value="";
+					return false;
+				}
+		}
+
+		function confirmPass(ob){
+		    var pass= $('#txtPassword');
+			var cpass = $(ob);
+			if (pass.val()!=cpass.val()) {
+					alert('Your password is not matched');
+					pass.val('');
+					cpass.val('');
+					return false;
+				}
+		}
+
+
+</script>
+
+</body>
+</html>

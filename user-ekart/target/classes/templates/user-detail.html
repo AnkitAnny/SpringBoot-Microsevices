@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Ekart</title>
+
+<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />
+
+</head>
+<body>
+
+
+	<h1 th:if="${savedUser==null}">Registration Failed</h1>
+	<div th:if="${savedUser!=null}">
+	<h1>User Detail</h1>
+
+		Name : <span th:text="${savedUser.name}"></span><br>
+		Email : <span th:text="${savedUser.email}"></span><br>
+	</div>
+	<a th:href="@{/user/form}">GoTo Registration Page</a><br>
+	<a th:href="@{/home}">GoTo Home Page</a>
+
+
+
+	<script th:src="@{/js/bootstrap.min.js}"></script>
+
+</body>
+</html>

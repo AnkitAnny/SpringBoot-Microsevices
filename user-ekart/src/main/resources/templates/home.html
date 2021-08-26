@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<div th:replace="layouts/components :: headerfiles">this is my head</div>
+
+<body>
+
+<div th:insert="layouts/components :: header">this is my header</div>
+
+<div style="margin:80px auto">
+    <center>
+        <form th:action="@{/}" th:object="${product}" method="post">
+            <input th:field="*{itemName}" id="txtSearch" class="form-control" style=" width: 50%; "/>
+            <input type="submit" value="Search Product" id="btnSubmit" disabled=true class="form-control"
+                   style=" width: 18%; margin-top: 1%; "/>
+        </form>
+        <br>
+        <br>
+        <h1>Product Details</h1>
+    </center>
+</div>
+
+<span th:if="${#lists.isEmpty(products)}">Data Not Found!</span>
+
+<div class="container" th:if="${not #lists.isEmpty(products)}">
+    <div class="row">
+
+        <div class="col-sm-3" th:each="p : ${products}" style="border: 2px solid gray;cursor: pointer;"
+             onclick="showInfo(this)">
+            <img th:src="@{/img/1.jpg}" alt="..." class="img-thumbnail">
+            <h3 th:text="${p.itemName}">Item Name</h3>
+            <h5 th:text="${p.itemPrice}">Item Price</h5>
+            <p th:text="${p.desc}">Item Desc!</p>
+        </div>
+
+    </div>
+</div>
+
+
+<!--<table class="table" th:if="${not #lists.isEmpty(products)}">
+    <thead>
+    <tr>
+        <th scope="col">S.No.</th>
+        <th scope="col">Name</th>
+        <th scope="col">Price</th>
+        <th scope="col">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+
+    <tr th:each="p : ${products}">
+
+        <th scope="row" th:text="${pStat.index+1}">1</th>
+        <td th:text="${p.itemName}">Mark</td>
+        <td th:text="${p.itemPrice}">0000</td>
+        <td th:text="${p.desc}">1111</td>
+    </tr>
+
+    </tbody>
+</table>-->
+
+<div th:replace="layouts/components :: foot">this is my footer</div>
+<div th:include="layouts/components :: script"></div>
+
+<script>
+        $(document).ready(function(){
+            $('#txtSearch').val('')
+            $('#txtSearch').on("change",function(){
+                if($('#txtSearch').val().length > 0)
+                    $('#btnSubmit').attr('disabled',false)
+                else
+                    $('#btnSubmit').attr('disabled',true)
+            })
+        })
+
+
+
+
+
+</script>
+
+</body>
+</html>
